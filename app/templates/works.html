@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<script>
+          function a(val){
+           document.getElementById("{{form.names.id}}").value=val;
+           document.querySelector("input[id=submit]").click();
+          }            
+</script>
+{% extends "base.html" %}
+{% block content %}
+    <h1>Научные работы</h1>
+    <table action="" method="post" novalidate>
+    <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО Науч.рук.</th></tr>
+    {% for i in w %}
+    <tr>
+        <td>{{i[0]}}</td>
+        <td>{{i[1]}}</td>
+        <td>{{i[2]}}</td>
+        {% if r[0][0] != 'Работник деканата' %}        
+        <td><input id="{{i[0]}}" type="button" value="Принять участие" onclick="a(this.id)"></td>
+        {% endif %}        
+    </tr>
+    {% endfor %}    
+    </table>
+    <div style="display: none">
+    <form action="" method="post" novalidate="">
+           {{ form.hidden_tag() }}
+           {{ form.names }}
+           {{ form.submit() }}
+    </form>
+    </div>
+{% endblock %}
+</body>
+</html>
+
+
+<!--<input type="button" onclick="a({{i[0]}})">

@@ -1,0 +1,39 @@
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title>Добро пожаловать!</title>
+      {% endif %}
+    </head>
+    <body>
+      <div> 
+          Научные работы:
+          {% if current_user.is_anonymous %}
+          <a href="{{ url_for('login') }}">Вход</a>
+          <a href="{{ url_for('register')}}">Регистрация</a>
+          {% else %}
+          {{user.username}}
+          <a href="{{ url_for('index') }}">Личный кабинет</a>
+          {% if user.role == 'Преподаватель'%}
+          <a href="{{url_for('add_work')}}">Добавить научную работу</a>
+          {% endif %}
+          {% if user.role == 'Работник деканата'%}
+          <a href="{{ url_for('add_conference') }}">Добавить конференцию</a>
+          {% endif %}
+          <a href="{{ url_for('works') }}">Научные работы</a>
+          <a href="{{ url_for('logout') }}"> Выход</a>
+          {% endif %}
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html> 

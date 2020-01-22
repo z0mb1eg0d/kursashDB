@@ -1,0 +1,84 @@
+<html>
+    <head>
+    </head>
+    <body>
+    <script>
+          function a(val){
+            console.log(1);
+            x = document.getElementsByClassName('conf');
+            console.log(2);
+            for (let e of x) {
+               e.style.display = 'none'; 
+            };
+            x = document.getElementsByClassName(val);
+            for (let e of x) {
+               e.style.display = 'block'; 
+            };
+          };  
+          function b(val){
+            console.log(1);
+            x = document.getElementsByClassName('number');
+            console.log(2);
+            for (let e of x) {
+               e.style.display = 'none'; 
+            };
+            x = document.getElementsByClassName(val);
+            for (let e of x) {
+               e.style.display = 'block'; 
+            };
+          };            
+    </script>
+	{% extends "base.html" %}
+
+	{% block content %}
+   		<h1>Добавить научную работу</h1>
+   		<form action="" method="post" novalidate>
+         {{ form.hidden_tag() }}
+         <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=32) }}
+            {% for error in form.title.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}
+         </p>
+         <p>
+            {{ form.theme.label }}<br>
+            <select name="theme" onchange="a(this.value)">
+              <option disabled selected>Выберите тему</option>
+             {% for i in theme %}
+              <option value = "{{i[0]}}">{{i[0]}}</option>
+             {% endfor %}
+            </select>
+            {% for error in form.theme.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}
+         </p>
+         <p>
+            {{ form.conference.label }}<br>
+             <select name="conference" onchange="b(this.value)">
+              <option disabled selected>Выберите конференцию</option>
+             {% for i in theme_conf %}
+              <option class="{{i[0]}} conf" value = "{{i[1]}}" style="display: none;">{{i[1]}}</option>
+             {% endfor %}
+            </select>
+            {% for error in form.conference.errors %}
+             <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}
+         </p>
+         <p>
+            {{ form.conference_number.label }}<br>
+            <select name="conference_number">
+              <option disabled selected>Выберите номер</option>
+              {% for i in conf_num %}
+              <option class="{{i[0]}} number" value = "{{i[1]}}" style="display: none;">{{i[1]}}</option>
+             {% endfor %}
+            </select>
+            {% for error in form.conference_number.errors %}
+             <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}            
+         </p>
+         <p>{{ form.submit() }}</p>
+        </form>
+		{% endblock %}
+    </body>
+</html>

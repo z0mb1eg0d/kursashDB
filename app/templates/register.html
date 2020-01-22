@@ -1,0 +1,128 @@
+<html>
+<head>
+</head>
+<body>
+    <script>
+        function showForm(val){
+            document.getElementById('p1').style.display= 'none';
+            document.getElementById('p2').style.display= 'none';
+            document.getElementById('p3').style.display= 'none';
+            document.getElementById('s1').style.display= 'none';
+            document.getElementById('s2').style.display= 'none';
+            switch(val) {
+              case 'Студент':
+                 document.getElementById('s1').style.display= 'block';
+                 document.getElementById('s2').style.display= 'block';              
+                 break;
+              case 'Преподаватель':
+                 document.getElementById('p1').style.display= 'block';
+                 document.getElementById('p2').style.display= 'block';
+                 document.getElementById('p3').style.display= 'block';
+                 break;           
+             }
+        }
+    </script>
+	{% extends "base.html" %}
+	
+	{% block content %}
+    <h1>Регистрация</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить!</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}
+            {% for error in form.email.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.password1.label }}<br>
+            {{ form.password1(size=32) }}
+            {% for error in form.password1.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить!</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.password2.label }}<br>
+            {{ form.password2(size=32) }}
+            {% for error in form.password2.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>          
+            {% endfor %}
+            {% if form.password1.data != form.password2.data %}
+            <span style="color: red;">Введенные пароли не совпадают!</span>
+            {% endif %}
+        </p>
+
+        <p>
+            {{ form.role.label }}<br>
+            <select name="role" onchange="showForm(this.value)">
+                <option value = ""></div>
+                <option value = "Студент">Студент</option>
+                <option value = "Преподаватель">Преподаватель</option>
+                <option value = "Работник деканата">Работник деканата</option>
+            </select>
+            {% for error in form.role.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>
+            {% endfor %}
+        </p>
+
+        <!-- Форма для студента -->
+        <p id="s1" style="display: none;">
+            {{form.record_num.label}}<br>
+            {{form.record_num(size=32)}}
+            {% for error in form.record_num.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>         
+            {% endfor %}
+        </p>
+
+        <p id="s2" style="display: none;">
+            {{form.group_num.label}}<br>
+            {{form.group_num(size=32)}}
+            {% for error in form.group_num.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>         
+            {% endfor %}
+        </p>
+
+
+        <!-- Форма для препода -->
+        <p id="p1" style="display: none;">
+            {{form.department_number.label}}<br>
+            {{form.department_number(size=2)}}
+            {% for error in form.department_number.errors %}
+             <span style="color: red;">Это поле необходимо заполнить!</span>         
+            {% endfor %}
+         </p>     
+        
+        <p id="p2" style="display: none;">
+        {{form.position.label }}<br>
+            <select name="position">
+             <option></option>
+             <option>Лаборант</option>
+             <option>Преподаватель</option>
+             <option>Старший преподаватель</option>
+             <option>Заведующий кафедрой</option>
+            </select>
+        {% for error in form.role.errors %}
+         <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        </p>
+        
+        <p id="p3" style="display: none;">
+        {{form.rank.label}}<br>
+        {{form.rank(size=32)}}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+</body>
+</html>

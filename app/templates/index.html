@@ -1,0 +1,95 @@
+<html>
+    <head>
+    </head>
+    <body>
+    	<script> 
+          function a(val){       
+          x = document.getElementsByClassName('in');
+          for (let e of x) {
+               e.style.display = 'block';
+               };
+          x = document.getElementsByClassName('in1');
+          for (let e of x) {
+               e.style.display = 'none'; 
+            };
+          x = document.getElementsByClassName(val)
+          for (let e of x) {
+               e.style.display = 'block'; 
+            };
+          console.log(1);           
+          document.getElementById(val).style.display = 'none';             
+          }
+          function b(val){
+          	x = document.getElementsByClassName(val);
+          	document.getElementById("{{form.grant.id}}").value=x[0].value;
+          	document.getElementById("{{form.s_num.id}}").value=val;
+          	document.querySelector("input[id=submit_s]").click();            
+          }            
+      </script>
+			{% extends "base.html" %}
+				{% block content %}
+				 <p>Имя пользователя: {{user.username}}</p>
+   			 <p>Тип пользователя: {{user.role}}</p>
+   			 {% if user.role != 'Работник деканата'%}
+   			 <h1>Работы, в которых вы принимаете участие</h1> 
+   			 {% endif %} 			 
+   			 <form action="" method="post" novalidate>
+         {{ form.hidden_tag() }}
+   			 {% if user.role == 'Работник деканата'%}
+   			 {{form.group.label}}
+   			 {{form.group}}
+   			 {{form.submit()}}
+   			 <h2>Студенты</h2>
+   			 <table>
+          <tr><th>Имя студента</th><th>Группа</th><th>№ Зачетки</th><th>Стипендия</th></tr>
+   			  {% for i in students %}   			 
+   			  <tr>
+           <td>{{i[0]}}</td>
+           <td>{{i[3]}}</td>
+           <td>{{i[1]}}</td>
+           {% if i[2] == None %}
+            <td>Без стипендии</td>
+           {% else %}
+            <td>{{i[2]}}</td>
+           {% endif %}
+           <td><input class="{{i[0]}} in1" id="{{i[1]}}" type="button" value="Изменить" onclick="b(this.id)" style="display: none"></td>           
+           <td class="{{i[0]}} in1" id="{{i[1]}}" style="display: none"><input class="{{i[1]}}" type="" name=""></</td>
+           <td><input class=" in" id="{{i[0]}}" type="button" value="Изменить стипендию" onclick="a(this.id)"></td>           
+          </tr>         
+   			  {% endfor %}
+   			 </table>
+   			 {% endif %}
+   			 {% if user.role != 'Работник деканата'%}
+   			 <table>
+          <tr><th>Название работы</th><th>Тема Работы</th><th>ФИО Науч.рук.</th></tr>
+   			  {% for i in w %}   			 
+   			  <tr>
+           <td>{{i[0]}}</td>
+           <td>{{i[1]}}</td>
+           <td>{{i[2]}}</td>            
+          </tr>         
+   			 {% endfor %}
+   			 </table>
+   			 {% endif %}
+   			 {% if user.role == 'Преподаватель'%}
+         <h1>Работы, которыми вы руководите</h1>
+         <table>
+          <tr><th>Название работы</th><th>Тема Работы</th></tr>
+   			  {% for i in w1 %}   			 
+   			  <tr>
+           <td>{{i[0]}}</td>
+           <td>{{i[1]}}</td>          
+          </tr>     
+   			  {% endfor %}
+   			 </table>
+   			 {% endif %}
+   			 <div style="display: none">    
+           {{ form.hidden_tag() }}
+           {{ form.grant }}
+           {{ form.s_num }}
+           {{ form.submit_s() }}
+         </div>
+   			 </form>
+			  {% endblock %}
+    </body>
+</html>

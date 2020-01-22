@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Вход</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            {% for error in form.username.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            {% for error in form.password.errors %}
+           	 <span style="color: red;">Это поле необходимо заполнить</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} Запомнить меня</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+</body>
+</html>
